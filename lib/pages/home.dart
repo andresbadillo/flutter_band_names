@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 1,
       ),
       body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         itemCount: bands.length,
         itemBuilder: (context, index) => _bandTile(bands[index]),
       ),
@@ -44,20 +45,48 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ListTile _bandTile(Band band) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.blue[100],
-        child: Text(band.name!.substring(0, 2)),
-      ),
-      title: Text(band.name!),
-      trailing: Text(
-        '${band.votes!}',
-        style: const TextStyle(fontSize: 20),
-      ),
-      onTap: () {
-        print(band.name);
+  Dismissible _bandTile(Band band) {
+    return Dismissible(
+      key: Key(band.id!),
+      direction: DismissDirection.startToEnd,
+      onDismissed: (direction) {
+        print('direction: $direction');
+        print('id: ${band.id}');
       },
+      background: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 8),
+        color: Colors.red,
+        child: Row(
+          children: const [
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            SizedBox(width: 10),
+            Text(
+              'Delete Band',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.blue[100],
+          child: Text(band.name!.substring(0, 2)),
+        ),
+        title: Text(band.name!),
+        trailing: Text(
+          '${band.votes!}',
+          style: const TextStyle(fontSize: 20),
+        ),
+        onTap: () {
+          print(band.name);
+        },
+      ),
     );
   }
 
