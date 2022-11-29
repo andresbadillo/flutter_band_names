@@ -1,8 +1,8 @@
-import 'package:band_names/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import 'package:band_names/services/socket_service.dart';
 import 'package:band_names/pages/home.dart';
 import 'package:band_names/pages/status.dart';
 
@@ -19,9 +19,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => SocketService(),
-        )
+        ChangeNotifierProvider(create: (context) => SocketService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
