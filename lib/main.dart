@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Band Names App',
-        initialRoute: 'status',
+        initialRoute: 'home',
         routes: {
           'home': (context) => HomePage(),
           'status': (context) => StatusPage(),
