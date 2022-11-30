@@ -11,8 +11,12 @@ enum ServerStatus {
 
 class SocketService with ChangeNotifier {
   ServerStatus _serverStatus = ServerStatus.Connecting;
+  late Socket _socket;
 
-  get serverStatus => _serverStatus;
+  ServerStatus get serverStatus => _serverStatus;
+
+  Socket get socket => _socket;
+  Function get emit => _socket.emit;
 
   SocketService() {
     _initConfig();
@@ -20,23 +24,32 @@ class SocketService with ChangeNotifier {
 
   void _initConfig() {
     // Dart Client from: https://pub.dev/packages/socket_io_client
-    Socket socket = io(
+    _socket = io(
       'http://10.0.2.2:3000/',
       OptionBuilder()
           .setTransports(['websocket']) // for Flutter or Dart VM
           .enableAutoConnect() // disable auto-connection
           .build(),
     );
-    socket.connect();
-    socket.onConnect((_) {
+    _socket.connect();
+    _socket.onConnect((_) {
       // print('connect');
-      socket.emit('mensaje', 'Conectado desde flutter');
+      _socket.emit('mensaje', 'Conectado desde flutter');
       _serverStatus = ServerStatus.OnLine;
       notifyListeners();
     });
-    socket.onDisconnect((_) {
+    _socket.onDisconnect((_) {
       _serverStatus = ServerStatus.OffLine;
       notifyListeners();
     });
+    // _socket.on('nuevo-mensaje', (payload) {
+    //   print('nuevo-mensaje:');
+    //   print('nombre: ' + payload['nombre']);
+    //   print('mensaje: ' + payload['mensaje']);
+    //   print(payload.containsKey('mensaje2') ? payload['mensaje2'] : 'No hay');
+    //   notifyListeners();
+    // });
+
+    // _socket.off('nuevo-mensaje');
   }
 }
