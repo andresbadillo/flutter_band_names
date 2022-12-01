@@ -246,6 +246,7 @@ class _HomePageState extends State<HomePage> {
         ),
         baseChartColor: Colors.grey[50]!.withOpacity(0.15),
         colorList: colorList,
+        emptyColor: Colors.grey.withOpacity(0.1),
       ),
     );
   }
